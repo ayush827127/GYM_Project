@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="json_project.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src=" http://login2explore.com/jpdb/resources/js/0.0.3/jpdb-commons.js "></script>
+    <title>Rocky Fittness</title>
+</head>
+
+<body>
+    <header>
+        <div class="left">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhrPsYEOlh2OIY-x_gFJg-E5Vk0M7wtGM_4g&usqp=CAU"
+                alt="LOGO">
+        </div>
+        <div class="mid">
+            <nav class="menu">
+                <ul>
+                    <li> <a href="">Home</a></li>
+                    <li> <a href="">Join</a> </li>
+                    <li> <a href="">Services</a> </li>
+                    <li> <a href="">About</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="right">
+            <button>Contact us</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="form">
+            <h1>Join the best gym of india now </h1>
+            <form>
+                <div>
+                    <input type="text" name="nam" id="name" placeholder="Enter your name">
+                </div>
+                <div>
+                    <input type="text" name="address" id="address" placeholder="Enter your address">
+                </div>
+                <div>
+                    <input type="tel" name="mobile" id="mobile" placeholder="Enter your phone no.">
+                </div>
+                <div>
+                    <input type="email" name="email" id="email" placeholder="Enter your email">
+                </div>
+                <button class="btn" id="button" onclick="saveEmployee();">Submit</button>
+            </form>
+        </div>
+
+        <script>
+            $("#name").focus();
+
+            // validateAndGetFormData function
+            function validateAndGetFormData() {
+                var student_name_var = $("#name").val();
+                if (student_name_var === "") {
+                    alert("Name is Required Value");
+                    $("#name").focus();
+                    return "";
+                }
+                var student_address_var = $("#address").val();
+                if (student_address_var === "") {
+                    alert("address is Required Value");
+                    $("#address").focus();
+                    return "";
+                }
+                var student_mobile_var = $("#mobile").val();
+                if (student_mobile_var === "") {
+                    alert("mobile is Required Value");
+                    $("#mobile").focus();
+                    return "";
+                }
+                var student_email_var = $("#email").val();
+                if (student_email_var === "") {
+                    alert("email is Required Value");
+                    $("#email").focus();
+                    return "";
+                }
+                var jsonStrObj = {
+                    student_name: student_name_var,
+                    student_address: student_address_var,
+                    student_mobile: student_mobile_var,
+                    student_email: student_email_var
+                };
+                return JSON.stringify(jsonStrObj);
+            }
+
+            // resetForm function
+            function resetForm() {
+                $("#name").val("")
+                $("#address").val("");
+                $("#mobile").val("");
+                $("#email").val("");
+                $("#name").focus();
+            }
+
+
+            // saveEmployee function
+
+            function saveEmployee() {
+                var jsonStr = validateAndGetFormData();
+                if (jsonStr === "") {
+                    return;
+                }
+                var putReqStr = createPUTRequest("90937492|-31949291318432750|90942809",
+                    jsonStr, "GYM", "GYM-REL");
+                jQuery.ajaxSetup({ async: false });
+                var resultObj = executeCommandAtGivenBaseUrl(putReqStr,
+                    "http://api.login2explore.com:5577", "/api/iml");
+                alert("Your Data has saved.");
+                jQuery.ajaxSetup({ async: true });
+                resetForm();
+            }
+        </script>
+
+    </main>
+</body>
+
+</html>
